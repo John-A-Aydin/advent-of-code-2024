@@ -1,14 +1,13 @@
+use std::collections::HashMap;
 use std::fs;
 
-pub fn solve() -> i32 {
+pub fn solve() -> (i32, i32) {
     let contents = fs::read_to_string("data/part-1.txt").expect("Could not find data.");
 
     let (mut vec1, mut vec2) = parse(contents);
 
     vec1.sort();
     vec2.sort();
-
-    //println!("{:?}", vec1);
 
     let mut diff: Vec<i32> = Vec::new();
 
@@ -18,8 +17,29 @@ pub fn solve() -> i32 {
         diff.push((a - b).abs());
     }
 
-    let ans = diff.iter().sum();
-    return ans;
+    let pt_1_ans = diff.iter().sum();
+
+    // Create HashMap of counts for each value in vec2
+    let mut counts: HashMap<i32, i32> = HashMap::new();
+    vec2.iter().for_each(|val| match counts.get_mut(val) {
+        Some(prev) => {
+            *prev += 1;
+        }
+        None => {
+            counts.insert(*val, 1);
+        }
+    });
+
+    let pt_2_ans = vec1.iter().fold(0, |acc, val| match counts.get(val) {
+        Some(n) => {
+            return acc + val * n;
+        }
+        None => {
+            return acc;
+        }
+    });
+
+    return (pt_1_ans, pt_2_ans);
 }
 
 fn parse(data: String) -> (Vec<i32>, Vec<i32>) {
@@ -39,7 +59,6 @@ fn parse(data: String) -> (Vec<i32>, Vec<i32>) {
             }
             cnt += 1;
         });
-    println!("Vec 1 len: {}\nVec 2 len: {}", vec1.len(), vec2.len());
     assert!(vec1.len() == vec2.len());
     return (vec1, vec2);
 }

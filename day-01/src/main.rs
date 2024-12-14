@@ -1,7 +1,7 @@
-mod part_1;
+mod soln;
 
 fn main() {
-    println!("Hello, world!");
-    let part_1_ans = part_1::solve();
-    print!("{}", part_1_ans)
+    let (part_1_ans, part_2_ans) = soln::solve();
+    println!("Part 1 Answer: {}", part_1_ans);
+    println!("Part 2 Answer: {}", part_2_ans);
 }
