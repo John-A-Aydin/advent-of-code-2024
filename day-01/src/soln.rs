@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::fs;
 
 pub fn solve() -> (i32, i32) {
-    let contents = fs::read_to_string("data/part-1.txt").expect("Could not find data.");
+    let contents = fs::read_to_string("data/data.txt").expect("Could not find data.");
 
     let (mut vec1, mut vec2) = parse(contents);
 
